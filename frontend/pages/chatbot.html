@@ -3,216 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot AI - Học tiếng Anh</title>
+    <title>Chatbot AI - Học tiếng Anh siêu vui</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .chat-container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 20px;
+        .chatbot-header {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            color: white;
+            padding: 3rem 20px;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
         }
         
-        .chat-box {
-            height: 400px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        .chatbot-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+        }
+        
+        .chatbot-header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+        
+        .chat-main-container {
+            max-width: 1000px;
+            margin: -50px auto 3rem;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .chat-card {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            border: 5px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24) border-box;
+        }
+        
+        .chat-tabs {
+            display: flex;
+            background: linear-gradient(90deg, #f8f9fa, #e9ecef);
             padding: 1rem;
+            gap: 1rem;
+            border-bottom: 3px solid #dee2e6;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            color: #333;
+            border: 2px solid #dee2e6;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255,107,107,0.3);
+        }
+        
+        .tab-btn i {
+            margin-right: 8px;
+        }
+        
+        .grade-selector-modern {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .grade-option {
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .grade-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+            border: 4px solid transparent;
+        }
+        
+        .grade-option.active .grade-circle {
+            transform: scale(1.1);
+            border-color: #f9ca24;
+            box-shadow: 0 0 30px #f9ca24;
+        }
+        
+        .grade-option:nth-child(1) .grade-circle { color: #ff6b6b; }
+        .grade-option:nth-child(2) .grade-circle { color: #4ecdc4; }
+        .grade-option:nth-child(3) .grade-circle { color: #45b7d1; }
+        
+        .grade-label {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .chat-area {
+            height: 450px;
+            padding: 2rem;
             overflow-y: auto;
-            margin-bottom: 1rem;
-            background: #f9f9f9;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
         
         .message {
-            margin-bottom: 1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            max-width: 70%;
-        }
-        
-        .user-message {
-            background: #3498db;
-            color: white;
-            margin-left: auto;
-        }
-        
-        .bot-message {
-            background: #e9ecef;
-            color: #333;
-        }
-        
-        .chat-input-area {
+            margin-bottom: 1.5rem;
             display: flex;
+            align-items: flex-start;
             gap: 1rem;
+            animation: popIn 0.3s ease;
+        }
+        
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .message.user {
+            flex-direction: row-reverse;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .bot-avatar {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+        }
+        
+        .user-avatar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            position: relative;
+            font-size: 1rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .bot-message .message-content {
+            background: white;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .user-message .message-content {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 0.3rem;
+        }
+        
+        .chat-input-modern {
+            display: flex;
+            padding: 1.5rem;
+            background: white;
+            gap: 1rem;
+            border-top: 3px solid #dee2e6;
+        }
+        
+        .input-wrapper {
+            flex: 1;
+            position: relative;
         }
         
         #userInput {
-            flex: 1;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border: 3px solid #e1e8f0;
+            border-radius: 50px;
             font-size: 1rem;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        #userInput:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 5px rgba(255,107,107,0.2);
         }
         
         #sendBtn {
-            padding: 0.8rem 2rem;
-            background: #3498db;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
             color: white;
             border: none;
-            border-radius: 4px;
+            font-size: 1.5rem;
             cursor: pointer;
-            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(255,107,107,0.3);
         }
         
         #sendBtn:hover {
-            background: #2980b9;
+            transform: scale(1.1) rotate(360deg);
         }
         
-        .grade-selector {
+        .suggestions {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: #f8f9fa;
         }
         
-        .grade-btn {
-            padding: 0.5rem 1.5rem;
-            border: 2px solid #3498db;
+        .suggestion-chip {
+            padding: 0.5rem 1rem;
             background: white;
-            color: #3498db;
-            border-radius: 4px;
+            border: 2px solid #dee2e6;
+            border-radius: 50px;
+            font-size: 0.9rem;
             cursor: pointer;
-            font-weight: bold;
+            transition: all 0.3s;
         }
         
-        .grade-btn.active {
-            background: #3498db;
+        .suggestion-chip:hover {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
             color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: 0.3rem;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: 20px;
+            width: fit-content;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        
+        @media (max-width: 768px) {
+            .grade-selector-modern {
+                flex-wrap: wrap;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <h1 class="logo">English THPT</h1>
+            <h1 class="logo">
+                <i class="fas fa-graduation-cap"></i> English THPT
+            </h1>
             <ul class="nav-menu">
-                <li><a href="../index.html">Trang chủ</a></li>
-                <li><a href="lop10.html">Lớp 10</a></li>
-                <li><a href="lop11.html">Lớp 11</a></li>
-                <li><a href="lop12.html">Lớp 12</a></li>
-                <li><a href="chatbot.html">Chatbot AI</a></li>
+                <li><a href="../index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+                <li><a href="lop10.html"><i class="fas fa-book"></i> Lớp 10</a></li>
+                <li><a href="lop11.html"><i class="fas fa-book-open"></i> Lớp 11</a></li>
+                <li><a href="lop12.html"><i class="fas fa-book-reader"></i> Lớp 12</a></li>
+                <li><a href="chatbot.html"><i class="fas fa-robot"></i> Chatbot AI</a></li>
             </ul>
         </div>
     </nav>
 
-    <main>
-        <div class="chat-container">
-            <h2 style="text-align: center; margin-bottom: 2rem;">🤖 Chatbot hỗ trợ học tiếng Anh</h2>
-            
-            <div class="grade-selector">
-                <button class="grade-btn active" data-grade="10">Lớp 10</button>
-                <button class="grade-btn" data-grade="11">Lớp 11</button>
-                <button class="grade-btn" data-grade="12">Lớp 12</button>
+    <div class="chatbot-header">
+        <h1><i class="fas fa-robot"></i> Trợ lý AI thông minh</h1>
+        <p>Học tiếng Anh cùng AI - Sửa lỗi viết, giải thích bài tập 24/7</p>
+    </div>
+
+    <div class="chat-main-container">
+        <div class="chat-card">
+            <div class="chat-tabs">
+                <button class="tab-btn active"><i class="fas fa-comment"></i> Học tập</button>
+                <button class="tab-btn"><i class="fas fa-pencil-alt"></i> Sửa bài viết</button>
+                <button class="tab-btn"><i class="fas fa-question-circle"></i> Hỏi đáp</button>
             </div>
             
-            <div class="chat-box" id="chatBox">
-                <div class="message bot-message">
-                    Xin chào! Tôi là trợ lý học tiếng Anh. Bạn cần giúp gì về bài học hôm nay?
+            <div class="grade-selector-modern">
+                <div class="grade-option active" data-grade="10">
+                    <div class="grade-circle">10</div>
+                    <div class="grade-label">Lớp 10</div>
+                </div>
+                <div class="grade-option" data-grade="11">
+                    <div class="grade-circle">11</div>
+                    <div class="grade-label">Lớp 11</div>
+                </div>
+                <div class="grade-option" data-grade="12">
+                    <div class="grade-circle">12</div>
+                    <div class="grade-label">Lớp 12</div>
                 </div>
             </div>
             
-            <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập câu hỏi hoặc bài viết tiếng Anh của bạn...">
-                <button id="sendBtn">Gửi</button>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        const chatBox = document.getElementById('chatBox');
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        let currentGrade = '10';
-        
-        // Xử lý chọn lớp
-        document.querySelectorAll('.grade-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentGrade = this.dataset.grade;
-            });
-        });
-        
-        // Xử lý gửi tin nhắn
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendMessage();
-        });
-        
-        async function sendMessage() {
-            const message = userInput.value.trim();
-            if (!message) return;
-            
-            // Hiển thị tin nhắn user
-            addMessage(message, 'user');
-            userInput.value = '';
-            
-            // Hiển thị loading
-            const loadingId = showLoading();
-            
-            try {
-                // Gọi API chatbot (sẽ deploy lên Vercel sau)
-                const response = await fetch('https://your-app.vercel.app/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        context: {
-                            grade: currentGrade,
-                            type: 'english_learning'
-                        }
-                    })
-                });
-                
-                removeLoading(loadingId);
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    addMessage(data.reply, 'bot');
-                } else {
-                    addMessage('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.', 'bot');
-                }
-            } catch (error) {
-                removeLoading(loadingId);
-                addMessage('Không thể kết nối đến server. Vui lòng thử lại.', 'bot');
-                console.error('Error:', error);
-            }
-        }
-        
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
-            messageDiv.textContent = text;
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-        
-        function showLoading() {
-            const id = 'loading-' + Date.now();
-            const loadingDiv = document.createElement('div');
-            loadingDiv.id = id;
-            loadingDiv.classList.add('message', 'bot-message');
-            loadingDiv.textContent = 'Đang suy nghĩ...';
-            chatBox.appendChild(loadingDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-            return id;
-        }
-        
-        function removeLoading(id) {
-            const loading = document.getElementById(id);
-            if (loading) loading.remove();
-        }
-    </script>
-</body>
-</html>
+            <div class="chat-area" id="chatBox">
+                <div class="message bot">
+                    <div class="avatar bot-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        👋 Xin chào! Mình là trợ lý học tiếng Anh. 
+                        Bạn cần giúp gì về bài học hôm
