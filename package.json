@@ -1,0 +1,10 @@
+{
+  "name": "english-learning-api",
+  "version": "1.0.0",
+  "description": "API cho website học tiếng Anh",
+  "main": "api/chat.js",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {}
+}
