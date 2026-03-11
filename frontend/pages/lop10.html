@@ -3,31 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lớp 10 - Học tiếng Anh</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Lớp 10 - English THPT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Copy toàn bộ CSS từ file index.html vào đây */
+        /* Sau đó thêm CSS riêng cho trang lớp */
         .units-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             padding: 2rem;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         
         .unit-card {
             background: white;
-            border-radius: 8px;
+            border-radius: 20px;
             padding: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border: 1px solid #eee;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            background: linear-gradient(135deg, #fff5f5, #ffe0e0);
+            border-color: #ff6b6b;
         }
         
-        .unit-card h3 {
-            color: #2c3e50;
+        .unit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255,107,107,0.3);
+        }
+        
+        .unit-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             margin-bottom: 1rem;
-            border-bottom: 2px solid #3498db;
+            border-bottom: 2px solid #ff6b6b;
             padding-bottom: 0.5rem;
+        }
+        
+        .unit-number {
+            background: #ff6b6b;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
         }
         
         .exercise-list {
@@ -35,64 +60,34 @@
         }
         
         .exercise-list li {
-            margin: 0.5rem 0;
+            margin: 0.8rem 0;
         }
         
         .exercise-list a {
-            color: #3498db;
+            color: #333;
             text-decoration: none;
-            display: block;
-            padding: 0.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 10px;
+            transition: all 0.3s;
         }
         
         .exercise-list a:hover {
-            color: #2980b9;
-            text-decoration: underline;
+            background: rgba(255,107,107,0.1);
+            transform: translateX(10px);
+            color: #ff6b6b;
+        }
+        
+        .exercise-list i {
+            width: 25px;
+            color: #ff6b6b;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <h1 class="logo">English THPT</h1>
-            <ul class="nav-menu">
-                <li><a href="../index.html">Trang chủ</a></li>
-                <li><a href="lop10.html">Lớp 10</a></li>
-                <li><a href="lop11.html">Lớp 11</a></li>
-                <li><a href="lop12.html">Lớp 12</a></li>
-                <li><a href="chatbot.html">Chatbot AI</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main>
-        <h1 style="text-align: center; margin: 2rem 0;">Tiếng Anh lớp 10 - Global Success</h1>
-        
-        <div class="units-grid">
-            <!-- Unit 1 -->
-            <div class="unit-card">
-                <h3>Unit 1: Family Life</h3>
-                <ul class="exercise-list">
-                    <li><a href="#">📝 Trắc nghiệm từ vựng</a></li>
-                    <li><a href="#">📖 Bài đọc hiểu</a></li>
-                    <li><a href="#">✍️ Viết lại câu</a></li>
-                    <li><a href="#">📚 Tài liệu ôn tập</a></li>
-                </ul>
-            </div>
-            
-            <!-- Unit 2 -->
-            <div class="unit-card">
-                <h3>Unit 2: Humans And The Environment</h3>
-                <ul class="exercise-list">
-                    <li><a href="#">📝 Trắc nghiệm từ vựng</a></li>
-                    <li><a href="#">📖 Bài đọc hiểu</a></li>
-                    <li><a href="#">✍️ Viết lại câu</a></li>
-                    <li><a href="#">📚 Tài liệu ôn tập</a></li>
-                </ul>
-            </div>
-            
-            <!-- Thêm các unit khác tương tự -->
-        </div>
-    </main>
+    <!-- Copy phần navbar từ index.html -->
+    <!-- Sau đó thêm nội dung riêng -->
 </body>
 </html>
