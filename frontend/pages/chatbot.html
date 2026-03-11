@@ -4,28 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot AI - Học tiếng Anh siêu vui</title>
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Navbar đẹp */
+        .navbar {
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            background-size: 300% 300%;
+            animation: gradientShift 10s ease infinite;
+            padding: 1rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+        }
+
+        .nav-menu li a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+            border-color: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .nav-menu li a i {
+            margin-right: 8px;
+        }
+
+        /* Chatbot Header */
         .chatbot-header {
             background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
             color: white;
             padding: 3rem 20px;
             text-align: center;
             clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .chatbot-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(10%, 10%); }
+        }
+
         .chatbot-header h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
             text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            position: relative;
         }
-        
+
         .chatbot-header p {
             font-size: 1.2rem;
             opacity: 0.95;
+            position: relative;
         }
-        
+
+        /* Chat Main Container */
         .chat-main-container {
             max-width: 1000px;
             margin: -50px auto 3rem;
@@ -33,7 +144,7 @@
             position: relative;
             z-index: 10;
         }
-        
+
         .chat-card {
             background: white;
             border-radius: 30px;
@@ -43,54 +154,22 @@
             background: linear-gradient(white, white) padding-box,
                         linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24) border-box;
         }
-        
-        .chat-tabs {
-            display: flex;
-            background: linear-gradient(90deg, #f8f9fa, #e9ecef);
-            padding: 1rem;
-            gap: 1rem;
-            border-bottom: 3px solid #dee2e6;
-        }
-        
-        .tab-btn {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            border-radius: 15px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-            color: #333;
-            border: 2px solid #dee2e6;
-        }
-        
-        .tab-btn.active {
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
-            color: white;
-            border-color: transparent;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255,107,107,0.3);
-        }
-        
-        .tab-btn i {
-            margin-right: 8px;
-        }
-        
+
+        /* Grade Selector */
         .grade-selector-modern {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 2rem;
             padding: 2rem;
             background: linear-gradient(135deg, #667eea, #764ba2);
         }
-        
+
         .grade-option {
             text-align: center;
             cursor: pointer;
+            transition: all 0.3s;
         }
-        
+
         .grade-circle {
             width: 80px;
             height: 80px;
@@ -104,31 +183,47 @@
             margin-bottom: 0.5rem;
             transition: all 0.3s;
             border: 4px solid transparent;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        
+
+        .grade-option:hover .grade-circle {
+            transform: scale(1.1);
+        }
+
         .grade-option.active .grade-circle {
             transform: scale(1.1);
             border-color: #f9ca24;
             box-shadow: 0 0 30px #f9ca24;
         }
-        
-        .grade-option:nth-child(1) .grade-circle { color: #ff6b6b; }
-        .grade-option:nth-child(2) .grade-circle { color: #4ecdc4; }
-        .grade-option:nth-child(3) .grade-circle { color: #45b7d1; }
-        
+
+        .grade-option:nth-child(1) .grade-circle { 
+            color: #ff6b6b; 
+            background: linear-gradient(135deg, #fff5f5, #ffe0e0);
+        }
+        .grade-option:nth-child(2) .grade-circle { 
+            color: #4ecdc4; 
+            background: linear-gradient(135deg, #f0fff4, #d4edda);
+        }
+        .grade-option:nth-child(3) .grade-circle { 
+            color: #45b7d1; 
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        }
+
         .grade-label {
             color: white;
             font-weight: 600;
             font-size: 1.1rem;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
         }
-        
+
+        /* Chat Area */
         .chat-area {
             height: 450px;
             padding: 2rem;
             overflow-y: auto;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-        
+
         .message {
             margin-bottom: 1.5rem;
             display: flex;
@@ -136,7 +231,7 @@
             gap: 1rem;
             animation: popIn 0.3s ease;
         }
-        
+
         @keyframes popIn {
             from {
                 transform: scale(0.8);
@@ -147,32 +242,33 @@
                 opacity: 1;
             }
         }
-        
+
         .message.user {
             flex-direction: row-reverse;
         }
-        
+
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            flex-shrink: 0;
         }
-        
+
         .bot-avatar {
             background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
             color: white;
         }
-        
+
         .user-avatar {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
         }
-        
+
         .message-content {
             max-width: 70%;
             padding: 1rem 1.5rem;
@@ -182,24 +278,19 @@
             line-height: 1.5;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        
+
         .bot-message .message-content {
             background: white;
             border-bottom-left-radius: 5px;
         }
-        
+
         .user-message .message-content {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border-bottom-right-radius: 5px;
         }
-        
-        .message-time {
-            font-size: 0.7rem;
-            opacity: 0.7;
-            margin-top: 0.3rem;
-        }
-        
+
+        /* Chat Input */
         .chat-input-modern {
             display: flex;
             padding: 1.5rem;
@@ -207,12 +298,12 @@
             gap: 1rem;
             border-top: 3px solid #dee2e6;
         }
-        
+
         .input-wrapper {
             flex: 1;
             position: relative;
         }
-        
+
         #userInput {
             width: 100%;
             padding: 1.2rem 1.5rem;
@@ -221,17 +312,18 @@
             font-size: 1rem;
             transition: all 0.3s;
             background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
         }
-        
+
         #userInput:focus {
             outline: none;
             border-color: #ff6b6b;
             box-shadow: 0 0 0 5px rgba(255,107,107,0.2);
         }
-        
+
         #sendBtn {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
             color: white;
@@ -241,36 +333,47 @@
             transition: all 0.3s;
             box-shadow: 0 10px 20px rgba(255,107,107,0.3);
         }
-        
+
         #sendBtn:hover {
             transform: scale(1.1) rotate(360deg);
         }
-        
+
+        #sendBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Suggestions */
         .suggestions {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
             padding: 1rem 2rem;
             background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
         }
-        
+
         .suggestion-chip {
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             background: white;
             border: 2px solid #dee2e6;
             border-radius: 50px;
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
         }
-        
+
         .suggestion-chip:hover {
             background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
             color: white;
             border-color: transparent;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
         }
-        
+
+        /* Typing Indicator */
         .typing-indicator {
             display: flex;
             gap: 0.3rem;
@@ -279,7 +382,7 @@
             border-radius: 20px;
             width: fit-content;
         }
-        
+
         .typing-dot {
             width: 8px;
             height: 8px;
@@ -287,22 +390,56 @@
             border-radius: 50%;
             animation: typing 1s infinite;
         }
-        
+
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
+
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-10px); }
         }
-        
+
+        /* Error Message */
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            margin: 0.5rem 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border-left: 4px solid #c62828;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(90deg, #2c3e50, #3498db);
+            color: white;
+            padding: 2rem 0 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
             .grade-selector-modern {
                 flex-wrap: wrap;
+                gap: 1rem;
             }
             
             .message-content {
                 max-width: 85%;
+            }
+            
+            .grade-circle {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -330,12 +467,6 @@
 
     <div class="chat-main-container">
         <div class="chat-card">
-            <div class="chat-tabs">
-                <button class="tab-btn active"><i class="fas fa-comment"></i> Học tập</button>
-                <button class="tab-btn"><i class="fas fa-pencil-alt"></i> Sửa bài viết</button>
-                <button class="tab-btn"><i class="fas fa-question-circle"></i> Hỏi đáp</button>
-            </div>
-            
             <div class="grade-selector-modern">
                 <div class="grade-option active" data-grade="10">
                     <div class="grade-circle">10</div>
@@ -358,4 +489,212 @@
                     </div>
                     <div class="message-content">
                         👋 Xin chào! Mình là trợ lý học tiếng Anh. 
-                        Bạn cần giúp gì về bài học hôm
+                        Bạn cần giúp gì về bài học hôm nay?
+                    </div>
+                </div>
+            </div>
+            
+            <div class="suggestions">
+                <span class="suggestion-chip">Sửa câu này: "She go to school"</span>
+                <span class="suggestion-chip">Giải thích thì hiện tại đơn</span>
+                <span class="suggestion-chip">Viết đoạn văn về gia đình</span>
+                <span class="suggestion-chip">Bài tập unit 1 lớp 10</span>
+            </div>
+            
+            <div class="chat-input-modern">
+                <div class="input-wrapper">
+                    <input type="text" id="userInput" placeholder="Nhập câu hỏi hoặc bài viết tiếng Anh của bạn...">
+                </div>
+                <button id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 English THPT - Học tiếng Anh vui vẻ cùng AI</p>
+        </div>
+    </footer>
+
+    <script>
+        // Cấu hình
+        const API_URL = 'https://english-learning-thpt-7avporiul-khoahocvietnams-projects.vercel.app/api/chat';
+        
+        // DOM elements
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const suggestionChips = document.querySelectorAll('.suggestion-chip');
+        const gradeOptions = document.querySelectorAll('.grade-option');
+        
+        let currentGrade = '10';
+        let isProcessing = false;
+
+        // Xử lý chọn lớp
+        gradeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                gradeOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentGrade = this.dataset.grade;
+                
+                // Thông báo đổi lớp
+                addBotMessage(`✅ Đã chuyển sang chương trình lớp ${currentGrade}. Bạn cần giúp gì?`);
+            });
+        });
+
+        // Xử lý gửi tin nhắn
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message || isProcessing) return;
+            
+            // Hiển thị tin nhắn user
+            addUserMessage(message);
+            userInput.value = '';
+            
+            // Hiển thị typing indicator
+            const typingId = showTypingIndicator();
+            isProcessing = true;
+            sendBtn.disabled = true;
+            
+            try {
+                console.log('Sending request to:', API_URL);
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        context: {
+                            grade: currentGrade,
+                            type: 'english_learning'
+                        }
+                    })
+                });
+                
+                // Xóa typing indicator
+                removeTypingIndicator(typingId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.reply) {
+                    addBotMessage(data.reply);
+                } else {
+                    addBotMessage('❌ Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.');
+                }
+                
+            } catch (error) {
+                console.error('Error details:', error);
+                removeTypingIndicator(typingId);
+                
+                let errorMessage = '❌ Không thể kết nối đến server. ';
+                if (!navigator.onLine) {
+                    errorMessage += 'Vui lòng kiểm tra kết nối internet.';
+                } else {
+                    errorMessage += 'Vui lòng thử lại sau.';
+                }
+                
+                addBotMessage(errorMessage);
+                
+                // Thêm thông tin debug
+                addBotMessage(`🔧 Debug: URL = ${API_URL}`);
+                
+            } finally {
+                isProcessing = false;
+                sendBtn.disabled = false;
+            }
+        }
+
+        // Helper functions
+        function addUserMessage(text) {
+            addMessage(text, 'user');
+        }
+
+        function addBotMessage(text) {
+            addMessage(text, 'bot');
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            
+            const avatar = document.createElement('div');
+            avatar.classList.add('avatar', sender === 'user' ? 'user-avatar' : 'bot-avatar');
+            avatar.innerHTML = sender === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            
+            const content = document.createElement('div');
+            content.classList.add('message-content');
+            
+            // Xử lý xuống dòng
+            content.innerHTML = text.replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const typingDiv = document.createElement('div');
+            typingDiv.id = id;
+            typingDiv.classList.add('message', 'bot');
+            
+            const avatar = document.createElement('div');
+            avatar.classList.add('avatar', 'bot-avatar');
+            avatar.innerHTML = '<i class="fas fa-robot"></i>';
+            
+            const indicator = document.createElement('div');
+            indicator.classList.add('typing-indicator');
+            indicator.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+            
+            typingDiv.appendChild(avatar);
+            typingDiv.appendChild(indicator);
+            chatBox.appendChild(typingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const indicator = document.getElementById(id);
+            if (indicator) indicator.remove();
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Xử lý suggestion chips
+        suggestionChips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                userInput.value = this.textContent;
+                sendMessage();
+            });
+        });
+
+        // Auto focus input
+        userInput.focus();
+
+        // Kiểm tra kết nối khi load trang
+        window.addEventListener('load', function() {
+            console.log('API URL:', API_URL);
+            console.log('Online status:', navigator.onLine);
+        });
+    </script>
+</body>
+</html>
